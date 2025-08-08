@@ -1,13 +1,14 @@
 import Navbar from "../components/navbar";
+import BasePage from "./base-page";
 
-class HomePage {
+class HomePage extends BasePage {
     constructor(page) {
-        this.page = page;
+        super(page);
         this.navbar = new Navbar(page);
     }
 
     async navigate() {
-        await this.page.goto("/");
+        await super.navigate('/')   
     }
     
 }

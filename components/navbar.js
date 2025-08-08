@@ -11,7 +11,15 @@ class Navbar {
 
     async clickLogin() {
         await this.myAccountButton.hover();
-        await this.page.getByRole('link', { name: 'Login' }).click();
+        // await this.page.getByRole('link', { name: 'Login' }).click();
+        const loginOption = this.page.locator("ul.mz-sub-menu-96 li a[href*='route=account/login']");
+        await loginOption.click();
+    }
+
+    async clickRegister() {
+        await this.myAccountButton.hover();
+        const registerOption = this.page.locator("ul.mz-sub-menu-96 li a[href*='route=account/register']");
+        await registerOption.click();
     }
     
 
