@@ -1,5 +1,5 @@
 import BasePage from "./base-page";
-
+import AlertError from "../components/alert-error";
 class LoginPage extends BasePage {
     constructor(page) {
         super(page);
@@ -7,6 +7,9 @@ class LoginPage extends BasePage {
         this.emailInput = page.getByLabel("E-Mail Address");
         this.passwordInput = page.getByLabel("Password");
         this.loginButton = page.locator("input[type='submit']");
+
+        // components
+        this.alertError = new AlertError(page);
     }
     async navigate() {
         await super.navigate(this.url)
@@ -22,6 +25,12 @@ class LoginPage extends BasePage {
 
     async clickLogin() {
         await this.loginButton.click();
+    }
+
+    async login(email, password) {
+        await this.fillEmail(email);
+        await this.fillPassword(password);
+        await this.clickLogin();
     }
 }
 

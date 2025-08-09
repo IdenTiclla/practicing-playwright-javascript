@@ -1,6 +1,8 @@
-class Navbar {
+import BaseComponent from "./base-component";
+
+class Navbar extends BaseComponent {
     constructor(page) {
-        this.page = page;
+        super(page);
         // modify this to select by contain 'My account'
         this.myAccountButton = page.locator("ul.horizontal a[href*='route=account/account']");
     }
@@ -11,15 +13,12 @@ class Navbar {
 
     async clickLogin() {
         await this.myAccountButton.hover();
-        // await this.page.getByRole('link', { name: 'Login' }).click();
-        const loginOption = this.page.locator("ul.mz-sub-menu-96 li a[href*='route=account/login']");
-        await loginOption.click();
+        await this.click("ul.mz-sub-menu-96 li a[href*='route=account/login']");
     }
 
     async clickRegister() {
         await this.myAccountButton.hover();
-        const registerOption = this.page.locator("ul.mz-sub-menu-96 li a[href*='route=account/register']");
-        await registerOption.click();
+        await this.click("ul.mz-sub-menu-96 li a[href*='route=account/register']")
     }
     
 
