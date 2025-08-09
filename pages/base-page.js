@@ -19,6 +19,15 @@ class BasePage {
         await this.page.waitForLoadState("networkidle", { timeout });
     }
 
+    async clickJavascript(selector) {
+        await this.page.evaluate((selector) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                element.click();
+            }
+        }, selector);
+    }
+
 }
 
 export default BasePage;

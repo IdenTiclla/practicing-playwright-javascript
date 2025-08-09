@@ -3,15 +3,15 @@ import BaseComponent from "./base-component.js";
 class AlertError extends BaseComponent {
     constructor(page) {
         super(page);
-        this.alertError = page.locator("div.alert-danger");
+        this.alertContainer = page.locator("div.alert-danger");
     }
 
     async isVisible() {
-        return await this.alertError.isVisible();
-    }
+        return await this.alertContainer.isVisible();
+    }   
 
     async getErrorMessage() {
-        return await this.alertError.textContent();
+        return await this.alertContainer.textContent();
     }
 }
 

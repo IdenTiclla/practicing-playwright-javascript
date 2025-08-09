@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test"
 import HomePage from "../pages/home-page"
 import LoginPage from "../pages/login-page"
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 test.describe("Login",() => {
     let homePage;
@@ -14,16 +17,15 @@ test.describe("Login",() => {
     test("test login successfully", async ({ page }) => {
         await homePage.navigate()
         await homePage.navbar.clickLogin()
-        await loginPage.login("jose.lopez@gmail.com", "P@ssw0rd")
+        await loginPage.login(process.env.VALID_EMAIL, process.env.VALID_PASSWORD)
         await expect(page.url()).toContain("https://ecommerce-playground.lambdatest.io/index.php?route=account/account")    
     })
     test("test login with invalid credentials", async ({ page }) => {
         await homePage.navigate();
         await homePage.navbar.clickLogin();
-        await loginPage.login("invalidemail6@gmail.com", "someinvalidpassword");
-        await expect(loginPage.alertError.alertError).toBeVisible();
-        const error = await loginPage.alertError.getErrorMessage();
-        expect(error).toContain("Warning: No match for E-Mail Address and/or Password.")
+        await loginPage.login("invalidemail16@gmail.com", "someinvalidpassword");
+        expect(await loginPage.alertError.isVisible()).toBe(true);
+        expect(await loginPage.alertError.getErrorMessage()).toContain("Warning: No match for E-Mail Address and/or Password.")
         await expect(page.url()).not.toContain("https://ecommerce-playground.lambdatest.io/index.php?route=account/account")    
     })
 
