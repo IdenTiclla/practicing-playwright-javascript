@@ -18,7 +18,7 @@ test.describe("Login",() => {
     test("test login successfully", async ({ page }) => {
         await homePage.navigate()
         await homePage.navbar.clickLogin()
-        await loginPage.login(process.env.VALID_EMAIL, process.env.VALID_PASSWORD)
+        await loginPage.login("jose.lopez@gmail.com", "P@ssw0rd")
         await expect(page.url()).toContain("https://ecommerce-playground.lambdatest.io/index.php?route=account/account")    
     })
 
