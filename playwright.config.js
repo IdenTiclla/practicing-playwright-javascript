@@ -30,9 +30,11 @@ export default defineConfig({
     baseURL: 'https://ecommerce-playground.lambdatest.io/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
-    // screenshot: 'on',
-    video: 'on'
+    
+    // solo para pruebas fallidas
+    trace: 'on-first-retry',
+    // solo para pruebas fallidas
+    video: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
