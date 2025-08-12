@@ -1,5 +1,6 @@
 import BasePage from "./base-page";
 import AlertError from "../components/alert-error";
+import AlertSuccess from "../components/alert-success";
 
 class RegisterPage extends BasePage {
     constructor(page) {
@@ -13,6 +14,7 @@ class RegisterPage extends BasePage {
         this.acceptTermsCheckbox = page.locator("div.custom-checkbox");
         this.continueButton = page.locator("input[value='Continue']");
         this.alertError = new AlertError(page);
+        this.alertSuccess = new AlertSuccess(page);
     }
     async checkSubscribe(subscribe) {
         subscribe ? await this.clickJavascript("#input-newsletter-yes") : await this.clickJavascript("#input-newsletter-no");
