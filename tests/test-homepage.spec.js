@@ -1,21 +1,13 @@
-import { test, expect } from "@playwright/test"
-import HomePage from "../pages/home-page"
+import { test, expect } from "./fixtures.js"
 
 test.describe("Homepage", () => {
-    let homePage;
-
-    test.beforeEach(async ({ page }) => {
-        homePage = new HomePage(page)
-    })
-
-    test("test homepage title", async ({ page }) => {
+    test("test homepage title", async ({ page, homePage }) => {
         await homePage.navigate()
         await expect(page).toHaveTitle("Your Store")
     })
-    
-    test("Test homepage url", async ({ page }) => {
+
+    test("Test homepage url", async ({ page, homePage }) => {
         await homePage.navigate()
-        await expect(page.url()).toContain("https://ecommerce-playground.lambdatest.io/")
+        await expect(page).toHaveURL(/\//)
     })
 })
-

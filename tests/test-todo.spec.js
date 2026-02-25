@@ -1,16 +1,12 @@
-import { test, expect } from "@playwright/test"
-import TodoPage from "../pages/todo-page"
+import { test, expect } from "./fixtures.js"
 
 test.describe("TodoMVC", () => {
-    let todoPage
-
-    test.beforeEach(async ({ page }) => {
-        todoPage = new TodoPage(page)
+    test.beforeEach(async ({ todoPage }) => {
         await todoPage.navigate()
     })
 
     // TC-01: Crear un nuevo todo
-    test("should add a new todo item", async () => {
+    test("should add a new todo item", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
 
         const todos = await todoPage.getTodoTexts()
@@ -19,7 +15,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(1)
     })
 
-    test("should add multiple todo items", async () => {
+    test("should add multiple todo items", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
         await todoPage.addTodo("Walk the dog")
         await todoPage.addTodo("Do Homework")
@@ -32,14 +28,14 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(3)
     })
 
-    test("should not add todo with empty text", async () => {
+    test("should not add todo with empty text", async ({ todoPage }) => {
         await todoPage.addEmptyTodo()
 
         const todos = await todoPage.getTodoTexts()
         expect(todos).toHaveLength(0)
     })
 
-    test("should display footer and toggle-all after adding first todo", async () => {
+    test("should display footer and toggle-all after adding first todo", async ({ todoPage }) => {
         const hasFooterBefore = await todoPage.hasFooter().catch(() => false)
         const hasToggleAllBefore = await todoPage.hasToggleAll().catch(() => false)
 
@@ -55,7 +51,7 @@ test.describe("TodoMVC", () => {
     })
 
     // TC-02: Marcar y desmarcar un todo como completado
-    test("should mark a todo item as completed", async () => {
+    test("should mark a todo item as completed", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
         await todoPage.addTodo("Walk the dog")
 
@@ -66,7 +62,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(1)
     })
 
-    test("should unmark a completed todo", async () => {
+    test("should unmark a completed todo", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
         await todoPage.toggleTodo("Buy groceries")
 
@@ -79,7 +75,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(1)
     })
 
-    test("should display clear completed button when todo is completed", async () => {
+    test("should display clear completed button when todo is completed", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
 
         const visibleBefore = await todoPage.isClearCompletedVisible()
@@ -91,7 +87,7 @@ test.describe("TodoMVC", () => {
         expect(visibleAfter).toBe(true)
     })
 
-    test("should hide clear completed button when all todos are active", async () => {
+    test("should hide clear completed button when all todos are active", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
         await todoPage.toggleTodo("Buy groceries")
         expect(await todoPage.isClearCompletedVisible()).toBe(true)
@@ -101,7 +97,7 @@ test.describe("TodoMVC", () => {
         expect(visible).toBe(false)
     })
 
-    test("should show correct singular/plural items count", async () => {
+    test("should show correct singular/plural items count", async ({ todoPage }) => {
         await todoPage.addTodo("Task 1")
         expect(await todoPage.getItemsLeftCount()).toBe(1)
 
@@ -112,7 +108,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(1)
     })
 
-    test("should apply completed class and strikethrough to completed todo", async () => {
+    test("should apply completed class and strikethrough to completed todo", async ({ todoPage }) => {
         await todoPage.addTodo("Buy groceries")
         await todoPage.toggleTodo("Buy groceries")
 
@@ -121,7 +117,7 @@ test.describe("TodoMVC", () => {
     })
 
     // TC-03: Editar un todo existente
-    test("should edit todo with Enter key", async () => {
+    test("should edit todo with Enter key", async ({ todoPage }) => {
         await todoPage.addTodo("Original task")
         await todoPage.editTodo("Original task", "Modified task")
         await todoPage.confirmEdit()
@@ -130,7 +126,7 @@ test.describe("TodoMVC", () => {
         expect(todos[0]).toContain("Modified task")
     })
 
-    test("should cancel edit with Escape key", async () => {
+    test("should cancel edit with Escape key", async ({ todoPage }) => {
         await todoPage.addTodo("Original task")
         await todoPage.editTodo("Original task", "Modified task")
         await todoPage.cancelEdit()
@@ -139,7 +135,7 @@ test.describe("TodoMVC", () => {
         expect(todos[0]).toContain("Original task")
     })
 
-    test("should delete todo when edited to empty text", async () => {
+    test("should delete todo when edited to empty text", async ({ todoPage }) => {
         await todoPage.addTodo("Task to delete")
         await todoPage.editTodo("Task to delete", "")
         await todoPage.confirmEdit()
@@ -149,7 +145,7 @@ test.describe("TodoMVC", () => {
     })
 
     // TC-04: Eliminar un todo
-    test("should delete todo with delete button", async () => {
+    test("should delete todo with delete button", async ({ todoPage }) => {
         await todoPage.addTodo("Todo A")
         await todoPage.addTodo("Todo B")
         await todoPage.addTodo("Todo C")
@@ -165,7 +161,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.getItemsLeftCount()).toBe(2)
     })
 
-    test("should clear all completed todos with clear completed button", async () => {
+    test("should clear all completed todos with clear completed button", async ({ todoPage }) => {
         await todoPage.addTodo("Todo A")
         await todoPage.addTodo("Todo B")
         await todoPage.addTodo("Todo C")
@@ -183,7 +179,7 @@ test.describe("TodoMVC", () => {
         expect(todos[0]).toContain("Todo B")
     })
 
-    test("should hide footer and toggle-all when list is empty after clear completed", async () => {
+    test("should hide footer and toggle-all when list is empty after clear completed", async ({ todoPage }) => {
         await todoPage.addTodo("Todo A")
         await todoPage.toggleTodo("Todo A")
 
@@ -200,7 +196,7 @@ test.describe("TodoMVC", () => {
     })
 
     // TC-05: Filtrar todos por estado
-    test("should display all todos with All filter", async () => {
+    test("should display all todos with All filter", async ({ todoPage }) => {
         await todoPage.addTodo("Active 1")
         await todoPage.addTodo("Completed 1")
         await todoPage.addTodo("Active 2")
@@ -212,7 +208,7 @@ test.describe("TodoMVC", () => {
         expect(todos).toHaveLength(3)
     })
 
-    test("should display only active todos with Active filter", async () => {
+    test("should display only active todos with Active filter", async ({ todoPage }) => {
         await todoPage.addTodo("Active 1")
         await todoPage.addTodo("Completed 1")
         await todoPage.addTodo("Active 2")
@@ -227,7 +223,7 @@ test.describe("TodoMVC", () => {
         expect(await todoPage.isTodoVisible("Completed 1")).toBe(false)
     })
 
-    test("should display only completed todos with Completed filter", async () => {
+    test("should display only completed todos with Completed filter", async ({ todoPage }) => {
         await todoPage.addTodo("Active 1")
         await todoPage.addTodo("Completed 1")
         await todoPage.addTodo("Active 2")
@@ -240,7 +236,7 @@ test.describe("TodoMVC", () => {
         expect(todos[0]).toContain("Completed 1")
     })
 
-    test("should update URL hash based on filter", async () => {
+    test("should update URL hash based on filter", async ({ todoPage }) => {
         await todoPage.addTodo("Task 1")
 
         await todoPage.filterByActive()
@@ -256,7 +252,7 @@ test.describe("TodoMVC", () => {
         expect(url).toContain("#/")
     })
 
-    test("should counter remain unchanged when changing filters", async () => {
+    test("should counter remain unchanged when changing filters", async ({ todoPage }) => {
         await todoPage.addTodo("Active 1")
         await todoPage.addTodo("Completed 1")
         await todoPage.toggleTodo("Completed 1")

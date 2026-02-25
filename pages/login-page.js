@@ -3,7 +3,7 @@ import AlertError from "../components/alert-error";
 class LoginPage extends BasePage {
     constructor(page) {
         super(page);
-        this.url = "https://ecommerce-playground.lambdatest.io/index.php?route=account/login"
+        this.url = "/index.php?route=account/login"
         this.emailInput = page.getByLabel("E-Mail Address");
         this.passwordInput = page.getByLabel("Password");
         this.loginButton = page.locator("input[type='submit']");
