@@ -1,6 +1,6 @@
-import BasePage from "./base-page";
-import AlertError from "../components/alert-error";
-import AlertSuccess from "../components/alert-success";
+import BasePage from "../base-page";
+import AlertError from "../../components/alert-error";
+import AlertSuccess from "../../components/alert-success";
 
 class RegisterPage extends BasePage {
     constructor(page) {

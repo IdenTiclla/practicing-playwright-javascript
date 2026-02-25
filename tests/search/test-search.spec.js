@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures.js"
+import { test, expect } from "../fixtures.js"
 
 test.describe("Search", () => {
     test("search test", async ({ page, homePage }) => {

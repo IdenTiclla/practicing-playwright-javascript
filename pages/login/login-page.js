@@ -1,5 +1,5 @@
-import BasePage from "./base-page";
-import AlertError from "../components/alert-error";
+import BasePage from "../base-page";
+import AlertError from "../../components/alert-error";
 class LoginPage extends BasePage {
     constructor(page) {
         super(page);

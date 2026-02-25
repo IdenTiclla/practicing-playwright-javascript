@@ -1,4 +1,4 @@
-import BasePage from "./base-page"
+import BasePage from "../base-page"
 
 class TodoPage extends BasePage {
     constructor(page) {
