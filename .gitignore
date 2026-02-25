@@ -17,3 +17,13 @@ node_modules/
 
 # github
 .github
+
+#claude
+.claude
+
+#playwright
+.playwright-cli
+.playwright-mcp
+
+# antigravity
+.agent
